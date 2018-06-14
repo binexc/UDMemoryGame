@@ -1,0 +1,178 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #ffffff url('../img/geometry2.png'); /* Background pattern from Subtle Patterns */
+    font-family: 'Coda', cursive;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+}
+
+/*
+ * Styles for the deck of cards
+ */
+
+.deck {
+    width: 660px;
+    min-height: 680px;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    padding: 32px;
+    border-radius: 10px;
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3em;
+}
+
+.deck .card {
+    height: 125px;
+    width: 125px;
+    background: #2e3d49;
+    font-size: 0;
+    color: #ffffff;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+}
+
+.deck .card.open {
+    transform: rotateY(0);
+    background: #02b3e4;
+    cursor: default;
+}
+
+.deck .card.show {
+    /*font-size: 33px;*/
+    font-size: 45px;
+}
+
+.deck .card.match {
+    cursor: default;
+    background: #02ccba;
+    font-size: 33px;
+}
+
+/*
+ * Styles for the Score Panel
+ */
+
+.score-panel {
+    text-align: left;
+    width: 345px;
+    margin-bottom: 10px;
+}
+
+.score-panel .starsDisplay {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin: 0 5px 0 0;
+}
+
+.score-panel .starsDisplay li {
+    list-style: none;
+    display: inline-block;
+}
+
+.score-panel .restartBtn {
+    float: right;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 600px) and (max-width: 690px) {
+    .deck {
+        width: 590px;
+        min-height: 600px;
+    }
+
+    .deck .card {
+        height: 115px;
+        width: 115px;
+    }
+}
+
+@media screen and (min-width: 499px) and (max-width: 599px) {
+    .deck {
+        width: 500px;
+        min-height: 510px;
+    }
+
+    .deck .card {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 405px) and (max-width: 498px) {
+    .deck {
+        width: 450px;
+        min-height: 460px;
+    }
+
+    .deck .card {
+        height: 85px;
+        width: 85px;
+    }
+}
+
+@media screen and (min-width: 360px) and (max-width: 405px) {
+    .deck {
+        width: 395px;
+        min-height: 405px;
+    }
+
+    .deck .card {
+        height: 75px;
+        width: 75px;
+    }
+}
+
+@media screen and (max-width: 359px) {
+    .deck {
+        width: 345px;
+        min-height: 355px;
+    }
+
+    .deck .card {
+        height: 60px;
+        width: 60px;
+    }
+
+    .deck .card.show {
+        font-size: 35px;
+    }
+
+    .score-panel {
+        width: 305px;
+    }
+}
