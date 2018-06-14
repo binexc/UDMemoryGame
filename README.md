@@ -1,7 +1,7 @@
 # UDMemoryGame
 _A Udacity nano-degree class Project_
 
-###This web app is the second project towards the Udacity Front-End Web Developer Nanodegree Program.
+This web app is the second project towards the Udacity Front-End Web Developer Nanodegree Program.
 
 To play the memory game - take the following steps:
 
