@@ -466,7 +466,7 @@ function processSelectedIndex(parentNode, childNode, arrIndx) {
     if( ((_missedSelectionCount % _numberOfMovesPerHalfStarRating) === 0) && (_currentStarRating > 0) ) {
         configureStarsDisplay(-1)
     }
-    
+
     arrCellSelections[arrIndx].showingState = 2
     arrCellSelections[_UnmatchedCellShowingIndex].showingState = 2
 

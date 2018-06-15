@@ -23,7 +23,7 @@ To play the memory game - take the following steps:
 Finally, in order to play again, simply click the refresh button in the upper right-hand corner of the page.
 
 
-##CODE DEPENDENCIES
+## CODE DEPENDENCIES
 
 There are two main dependencies this application depends on. The external dependencies are:
 
