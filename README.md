@@ -21,3 +21,16 @@ To play the memory game - take the following steps:
 6.  Note that your star rating will decrease by a half star for each 3 selections which is a pairing mismatch.
 
 Finally, in order to play again, simply click the refresh button in the upper right-hand corner of the page.
+
+
+##CODE DEPENDENCIES
+
+There are two main dependencies this application depends on. The external dependencies are:
+
+1. Font Awesome 4.6.1 by @davegandy
+    *   URL: http://fontawesome.io
+    *   License: MIT License
+        *   http://fontawesome.io/license
+
+2.  Google Fonts API
+    *   URL: https://fonts.googleapis.com/css?family=Coda

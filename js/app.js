@@ -121,22 +121,22 @@ function didWin() {
             displayString += '3 Stars!!!'
             break
         case _maxStarRating - 1:
-            displayString += '2 and a half Stars!!!'
+            displayString += '3!!!'
             break
         case _maxStarRating - 2:
             displayString += '2 Stars!!'
             break
         case _maxStarRating - 3:
-            displayString += '1 and a half Stars!!'
+            displayString += '2!!'
             break
         case _maxStarRating - 4:
             displayString += '1 Star!'
             break
         case _maxStarRating - 5:
-            displayString += 'A half Star!'
+            displayString += '1 Star!'
             break
         default:
-            displayString += '0 Stars! Keep practicing...'
+            displayString += '1 Stars! Keep practicing...'
     }
 
     displayString += '\n\nPress \"Cancel\" to go back and see your game or \"OK\" to start another game'
@@ -223,8 +223,6 @@ function userSelectionMade(evt) {
         _clockIntervalObj = window.setInterval(updateCurrentPlayTime, 1000);
     }
 
-    _movesCounter++
-
     var childNode = null
     var parentNode = null
 
@@ -242,7 +240,11 @@ function userSelectionMade(evt) {
         return
     }
 
-    processSelection(parentNode, childNode)
+    if(processSelection(parentNode, childNode) === false) {
+        return
+    }
+
+    _movesCounter++
 
     if(_movesCounter === 1) {
         _movesCounterDisplay.innerText =  _movesCounter + " Move"
@@ -267,7 +269,8 @@ function configureStarsDisplay(incrementDecrementAmount) {
         _currentStarRating++
     }
 
-    //Get your moves range
+    //Get your moves range. If the value is 0, you're resetting
+    //the game and you need to fill in all three stars.
     if (incrementDecrementAmount === 0) {
         //Reset all three stars to full stars
         for(var i = 0; i < _starRatingDisplay.children.length; i++) {
@@ -288,7 +291,8 @@ function configureStarsDisplay(incrementDecrementAmount) {
             currentStar = 2
             break
         case _numberOfMovesPerHalfStarRating * 5: case _numberOfMovesPerHalfStarRating * 6:
-            currentStar = 1
+            //currentStar = 1
+            return//Never go below a single star
             break
         default:
             return //You only need to change when the modulus == 0, and also, don't give your users crazy negative bad ratings!
@@ -301,19 +305,16 @@ function configureStarsDisplay(incrementDecrementAmount) {
             starElmt.innerHTML = '<i class="fa fa-star"></i>'
             break
         case _maxStarRating - 1:
-            starElmt.innerHTML = '<i class="fa fa-star-half-empty"></i>'
             break
         case _maxStarRating - 2:
             starElmt.innerHTML = '<i class="fa fa-star-o"></i>'
             break
         case _maxStarRating - 3:
-            starElmt.innerHTML = '<i class="fa fa-star-half-empty"></i>'
             break
         case _maxStarRating - 4:
             starElmt.innerHTML = '<i class="fa fa-star-o"></i>'
             break
         case _maxStarRating - 5:
-            starElmt.innerHTML = '<i class="fa fa-star-half-empty"></i>'
             break
         default:
             starElmt.innerHTML = '<i class="fa fa-star-o"></i>'
@@ -361,7 +362,7 @@ function processSelection(parent, child) {
     let childID = child.id.split('.')
 
     if(parentID[2] !== childID[2]) {
-        return
+        return false
     }
 
     let indexer
@@ -395,13 +396,15 @@ function processSelection(parent, child) {
 
     //3 means the selection is already matched - so just move on!
     if(arrCellSelections[arrIndx].showingState === 3) {
-        return
+        return false
     }
 
-    processSelectedIndex(parent, child, arrIndx)
+    return processSelectedIndex(parent, child, arrIndx)
 }
 
 /*
+    NOTE: Will ONLY return true if the moves counter needs to be incremented. The moves are incremented
+            only when the second cell is selected - and NOT each time a particular cell is selected.
     showingState:
         0 = Closed & Not showing its image
         1 = Open & Showing for reference - Will auto close after a small timeout
@@ -409,17 +412,21 @@ function processSelection(parent, child) {
 */
 function processSelectedIndex(parentNode, childNode, arrIndx) {
 
+    if(arrCellSelections[arrIndx].showingState !== 0) {
+        return false
+    }
+
     if (_UnmatchedCellShowingIndex === -1) {
         _UnmatchedCellShowingIndex = arrIndx
         arrCellSelections[arrIndx].showingState = 1
         arrCellSelections[arrIndx].parentCell.className = "card show"
-        return
+        return false
     }
     else if(arrIndx === _UnmatchedCellShowingIndex) {
         arrCellSelections[_UnmatchedCellShowingIndex].showingState = 0
         arrCellSelections[_UnmatchedCellShowingIndex].parentCell.className = "card"
         _UnmatchedCellShowingIndex = -1
-        return
+        return false
     }
 
     //Means you have an unmatched cell displaying - and you've tapped a separate cell.
@@ -447,7 +454,7 @@ function processSelectedIndex(parentNode, childNode, arrIndx) {
             }, 400)
         }
 
-        return
+        return true
     }
 
     //OR that cell does NOT match...
@@ -459,9 +466,7 @@ function processSelectedIndex(parentNode, childNode, arrIndx) {
     if( ((_missedSelectionCount % _numberOfMovesPerHalfStarRating) === 0) && (_currentStarRating > 0) ) {
         configureStarsDisplay(-1)
     }
-
-    arrIndx = arrCellSelections[_UnmatchedCellShowingIndex].correspondingIndex
-
+    
     arrCellSelections[arrIndx].showingState = 2
     arrCellSelections[_UnmatchedCellShowingIndex].showingState = 2
 
@@ -474,7 +479,12 @@ function processSelectedIndex(parentNode, childNode, arrIndx) {
         arrCellSelections[arrIndx].parentCell.className = "card"
         arrCellSelections[_UnmatchedCellShowingIndex].parentCell.className = "card"
 
+        arrCellSelections[arrIndx].showingState = 0
+        arrCellSelections[_UnmatchedCellShowingIndex].showingState = 0
+
         _UnmatchedCellShowingIndex = -1
     }, 500)
+
+    return true
 }
 
